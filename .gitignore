@@ -1,6 +1,43 @@
-@"
+# Virtual environment
 venv/
+.venv/
+env/
+
+# Environment variables
 .env
+
+# Python cache
 __pycache__/
-*.pyc
-"@ | Out-File -Encoding utf8 .gitignore
+*.py[cod]
+*$py.class
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Python build files
+build/
+dist/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Secrets
+*.pem
+*.key
+
+# Test/cache
+.pytest_cache/
+.mypy_cache/

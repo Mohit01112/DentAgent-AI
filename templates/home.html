@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DentalAI | Smart Dental Appointments</title>
+
+    <meta
+        name="description"
+        content="AI-powered dental appointment management system for booking, cancelling, rescheduling and finding dental appointments."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/home.css') }}"
+    >
+</head>
+
+<body>
+
+    <!-- Background -->
+    <div class="background-grid"></div>
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+    <!-- Navbar -->
+    <header class="navbar">
+
+        <a href="/" class="logo">
+            <div class="logo-icon">
+                <span>✦</span>
+            </div>
+
+            <div class="logo-text">
+                <strong>Dental<span>AI</span></strong>
+                <small>SMART CARE</small>
+            </div>
+        </a>
+
+        <nav class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How it works</a>
+        </nav>
+
+        <a href="/chat" class="nav-button">
+            Start Chat
+            <span>↗</span>
+        </a>
+
+    </header>
+
+
+    <!-- Hero -->
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="status-pill">
+                    <span class="status-dot"></span>
+                    AI Dental Assistant
+                    <span class="pill-line"></span>
+                    Available 24/7
+                </div>
+
+                <h1>
+                    Your dental care,
+                    <span>simplified.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Book appointments, find available dentists, cancel bookings,
+                    or reschedule your visit — all through one intelligent
+                    conversational assistant.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a href="/chat" class="primary-button">
+                        <span>Talk to DentalAI</span>
+                        <span class="button-arrow">→</span>
+                    </a>
+
+                    <a href="#how-it-works" class="secondary-button">
+                        See how it works
+                    </a>
+
+                </div>
+
+                <div class="trust-row">
+
+                    <div class="trust-item">
+                        <div class="trust-icon">✓</div>
+                        <span>Instant assistance</span>
+                    </div>
+
+                    <div class="trust-item">
+                        <div class="trust-icon">✓</div>
+                        <span>Smart appointment management</span>
+                    </div>
+
+                    <div class="trust-item">
+                        <div class="trust-icon">✓</div>
+                        <span>Simple conversations</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Hero visual -->
+            <div class="hero-visual">
+
+                <div class="orbital orbital-one"></div>
+                <div class="orbital orbital-two"></div>
+
+                <div class="ai-card">
+
+                    <div class="ai-card-top">
+
+                        <div class="ai-profile">
+                            <div class="ai-avatar">
+                                ✦
+                            </div>
+
+                            <div>
+                                <strong>DentalAI</strong>
+                                <span>
+                                    <i></i>
+                                    Online
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="more-button">•••</div>
+
+                    </div>
+
+
+                    <div class="conversation">
+
+                        <div class="message ai-message">
+                            <div class="mini-avatar">✦</div>
+
+                            <div class="message-content">
+                                <span class="message-name">DentalAI</span>
+
+                                <p>
+                                    Hello! 👋<br>
+                                    How can I help with your dental
+                                    appointment today?
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="message user-message">
+
+                            <div class="message-content">
+                                <span class="message-name">You</span>
+
+                                <p>
+                                    I want to book an orthodontist
+                                    appointment.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="message ai-message">
+
+                            <div class="mini-avatar">✦</div>
+
+                            <div class="message-content">
+                                <span class="message-name">DentalAI</span>
+
+                                <p>
+                                    Of course. Let me check the available
+                                    orthodontists and appointment slots.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="fake-input">
+
+                        <span>Ask anything about your appointment...</span>
+
+                        <div class="send-icon">
+                            ↑
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Floating cards -->
+
+                <div class="floating-card appointment-card">
+
+                    <div class="floating-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <small>Appointment</small>
+                        <strong>Successfully booked</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="floating-card availability-card">
+
+                    <div class="availability-icon">
+                        ●
+                    </div>
+
+                    <div>
+                        <small>Availability</small>
+                        <strong>12 slots available</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Stats -->
+        <section class="stats-section">
+
+            <div class="stat">
+                <strong>24/7</strong>
+                <span>AI assistance</span>
+            </div>
+
+            <div class="stat-divider"></div>
+
+            <div class="stat">
+                <strong>4+</strong>
+                <span>Appointment actions</span>
+            </div>
+
+            <div class="stat-divider"></div>
+
+            <div class="stat">
+                <strong>7</strong>
+                <span>Dental specialties</span>
+            </div>
+
+            <div class="stat-divider"></div>
+
+            <div class="stat">
+                <strong>AI</strong>
+                <span>Powered conversations</span>
+            </div>
+
+        </section>
+
+
+        <!-- Features -->
+        <section class="features-section" id="features">
+
+            <div class="section-heading">
+
+                <div class="section-label">
+                    WHAT YOU CAN DO
+                </div>
+
+                <h2>
+                    One assistant.
+                    <span>Everything you need.</span>
+                </h2>
+
+                <p>
+                    Manage your dental appointments naturally through
+                    conversation.
+                </p>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-number">01</div>
+
+                    <div class="feature-icon">
+                        ◷
+                    </div>
+
+                    <h3>Find appointments</h3>
+
+                    <p>
+                        Discover available dentists, specialties and
+                        appointment slots using natural language.
+                    </p>
+
+                    <span class="feature-link">
+                        Check availability →
+                    </span>
+
+                </div>
+
+
+                <div class="feature-card featured">
+
+                    <div class="feature-number">02</div>
+
+                    <div class="feature-icon">
+                        +
+                    </div>
+
+                    <h3>Book instantly</h3>
+
+                    <p>
+                        Tell the assistant your preferred dentist and time.
+                        It verifies availability before booking.
+                    </p>
+
+                    <span class="feature-link">
+                        Book an appointment →
+                    </span>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-number">03</div>
+
+                    <div class="feature-icon">
+                        ↻
+                    </div>
+
+                    <h3>Reschedule easily</h3>
+
+                    <p>
+                        Need another time? Move your existing appointment
+                        to a new available slot.
+                    </p>
+
+                    <span class="feature-link">
+                        Change appointment →
+                    </span>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-number">04</div>
+
+                    <div class="feature-icon">
+                        ×
+                    </div>
+
+                    <h3>Cancel safely</h3>
+
+                    <p>
+                        Find an existing appointment and cancel it with
+                        explicit confirmation.
+                    </p>
+
+                    <span class="feature-link">
+                        Manage booking →
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- How it works -->
+        <section class="workflow-section" id="how-it-works">
+
+            <div class="workflow-visual">
+
+                <div class="workflow-circle">
+
+                    <div class="circle-center">
+                        <span>✦</span>
+                        <strong>DentalAI</strong>
+                    </div>
+
+                    <div class="workflow-node node-one">
+                        <span>01</span>
+                        Ask
+                    </div>
+
+                    <div class="workflow-node node-two">
+                        <span>02</span>
+                        Understand
+                    </div>
+
+                    <div class="workflow-node node-three">
+                        <span>03</span>
+                        Execute
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="workflow-content">
+
+                <div class="section-label">
+                    HOW IT WORKS
+                </div>
+
+                <h2>
+                    Just tell us what
+                    <span>you need.</span>
+                </h2>
+
+                <p>
+                    DentalAI understands your request and connects it with
+                    the right appointment workflow.
+                </p>
+
+
+                <div class="steps">
+
+                    <div class="step">
+
+                        <div class="step-number">01</div>
+
+                        <div>
+                            <h3>Tell us</h3>
+                            <p>
+                                Describe what you need in your own words.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">02</div>
+
+                        <div>
+                            <h3>AI understands</h3>
+                            <p>
+                                The intelligent agent identifies the
+                                appropriate appointment action.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">03</div>
+
+                        <div>
+                            <h3>Get it done</h3>
+                            <p>
+                                Your appointment information is checked
+                                and updated automatically.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <a href="/chat" class="workflow-button">
+                    Start a conversation →
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- CTA -->
+        <section class="cta-section">
+
+            <div class="cta-glow"></div>
+
+            <div class="cta-content">
+
+                <div class="section-label">
+                    READY WHEN YOU ARE
+                </div>
+
+                <h2>
+                    Your next appointment
+                    <span>starts with a conversation.</span>
+                </h2>
+
+                <p>
+                    No complicated forms. Just tell DentalAI what you need.
+                </p>
+
+                <a href="/chat" class="primary-button">
+                    <span>Open DentalAI</span>
+                    <span class="button-arrow">→</span>
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <div class="footer-brand">
+
+            <div class="logo-icon">
+                <span>✦</span>
+            </div>
+
+            <div>
+                <strong>DentalAI</strong>
+                <small>SMART DENTAL APPOINTMENTS</small>
+            </div>
+
+        </div>
+
+        <p>
+            AI-powered dental appointment management.
+        </p>
+
+        <span class="copyright">
+            © 2026 DentalAI
+        </span>
+
+    </footer>
+
+
+</body>
+</html>
