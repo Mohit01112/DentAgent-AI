@@ -1,10 +1,10 @@
+
 const chatForm = document.getElementById("chatForm");
 const messageInput = document.getElementById("messageInput");
 const messagesContainer = document.getElementById("messages");
 const sendButton = document.getElementById("sendButton");
 const typingIndicator = document.getElementById("typingIndicator");
 const clearChatButton = document.getElementById("clearChatButton");
-
 
 // ------------------------------------------------------------
 // Scroll
@@ -14,133 +14,109 @@ function scrollToBottom() {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
-
 // ------------------------------------------------------------
 // Escape HTML
 // ------------------------------------------------------------
 
 function escapeHTML(text) {
     const div = document.createElement("div");
-    div.textContent = text;
+    div.textContent = String(text ?? "");
     return div.innerHTML;
 }
-
 
 // ------------------------------------------------------------
 // Add User Message
 // ------------------------------------------------------------
 
 function addUserMessage(text) {
-
     const wrapper = document.createElement("div");
-
     wrapper.className = "chat-message user";
 
     wrapper.innerHTML = `
         <div class="message-content">
-
-            <span class="sender">
-                You
-            </span>
-
-            <div class="user-bubble">
-                ${escapeHTML(text)}
-            </div>
-
+            <span class="sender">You</span>
+            <div class="user-bubble">${escapeHTML(text)}</div>
         </div>
-
-        <div class="message-avatar user">
-            You
-        </div>
+        <div class="message-avatar user">You</div>
     `;
 
     messagesContainer.appendChild(wrapper);
-
     scrollToBottom();
 }
 
-
 // ------------------------------------------------------------
-// Add Assistant Message
-// ------------------------------------------------------------
-
-// ------------------------------------------------------------
-// Add Assistant Message
+// Format Assistant Message
 // ------------------------------------------------------------
 
 function formatAssistantMessage(text) {
-    // 1. Split text into individual lines to filter out tables cleanly
-    const lines = text.split("\n");
-    const cleanedLines = [];
+    let formatted = escapeHTML(text);
 
-    for (let line of lines) {
+    // Keep appointment details while formatting Markdown tables.
+    formatted = formatted.split("\n").map(line => {
         const trimmed = line.trim();
-        // Skip markdown table header, separators, and rows (lines containing multiple |)
-        if (trimmed.startsWith("|") || trimmed.endsWith("|") || (trimmed.match(/\|/g) || []).length > 1) {
-            continue;
+
+        // Remove only Markdown table separator rows.
+        if (/^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(trimmed)) {
+            return "";
         }
-        cleanedLines.push(line);
-    }
 
-    let joinedText = cleanedLines.join("\n");
-    let formatted = escapeHTML(joinedText);
+        // Display table cells as readable text.
+        if (trimmed.includes("|")) {
+            const cells = trimmed
+                .replace(/^\|/, "")
+                .replace(/\|$/, "")
+                .split("|")
+                .map(cell => cell.trim())
+                .filter(Boolean);
 
-    // Remove Markdown bold
+            return cells.join("  •  ");
+        }
+
+        return line;
+    }).join("\n");
+
+    // Format bold text.
     formatted = formatted.replace(
-        /\*\*(.*?)\*\*/g,
+        /\*\*(.+?)\*\*/g,
         "<strong>$1</strong>"
     );
 
-    // Convert numbered lists
+    // Format bullet points.
     formatted = formatted.replace(
-        /(?:^|\n)(\d+)\.\s+(.*)/g,
-        "<br>$1. $2"
+        /(^|\n)\s*[-*]\s+/g,
+        "$1• "
     );
 
-    // Convert bullet points
-    formatted = formatted.replace(
-        /(?:^|\n)\\?\*\s+(.*)/g,
-        "<br>• $1"
-    );
-
-    // Line breaks
+    // Preserve line breaks.
     formatted = formatted.replace(/\n/g, "<br>");
 
     return formatted;
 }
 
+// ------------------------------------------------------------
+// Add Assistant Message
+// ------------------------------------------------------------
 
 function addAssistantMessage(text) {
-
     const wrapper = document.createElement("div");
-
     wrapper.className = "chat-message";
 
     wrapper.innerHTML = `
-        <div class="message-avatar">
-            ✦
-        </div>
-
+        <div class="message-avatar">✦</div>
         <div class="message-content">
-
-            <span class="sender">
-                DentalAI
-            </span>
-
+            <span class="sender">DentalAI</span>
             <div class="assistant-bubble dynamic">
                 ${formatAssistantMessage(text)}
             </div>
-
         </div>
     `;
 
     messagesContainer.appendChild(wrapper);
-
     scrollToBottom();
 }
 
 // ------------------------------------------------------------
-// Typing indicator
+// Typing Indicator
 // ------------------------------------------------------------
 
 function showTyping() {
@@ -148,19 +124,20 @@ function showTyping() {
     scrollToBottom();
 }
 
-
 function hideTyping() {
     typingIndicator.classList.remove("visible");
 }
-
 
 // ------------------------------------------------------------
 // Send Message
 // ------------------------------------------------------------
 
 async function sendMessage(message) {
-
-    if (!message || !message.trim()) {
+    if (
+        typeof message !== "string" ||
+        !message.trim() ||
+        sendButton.disabled
+    ) {
         return;
     }
 
@@ -169,138 +146,95 @@ async function sendMessage(message) {
     addUserMessage(cleanMessage);
 
     messageInput.value = "";
-
     autoResize();
-
     sendButton.disabled = true;
-
     showTyping();
 
     try {
-
         const response = await fetch("/api/chat", {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
                 message: cleanMessage
             })
-
         });
 
-
-        const data = await response.json();
-
+        const data = await response.json().catch(() => ({}));
 
         if (!response.ok || !data.success) {
-
             throw new Error(
-                data.error || "Something went wrong."
+                data.error || `Request failed (${response.status}).`
             );
-
         }
 
-
-        hideTyping();
-
-        addAssistantMessage(data.response);
-
+        addAssistantMessage(
+            data.response || "I couldn't generate a response."
+        );
 
     } catch (error) {
-
-        hideTyping();
+        console.error("Chat error:", error);
 
         addAssistantMessage(
             "I'm sorry, something went wrong while processing your request. Please try again."
         );
 
-        console.error("Chat error:", error);
-
     } finally {
-
+        hideTyping();
         sendButton.disabled = false;
-
         messageInput.focus();
-
     }
 }
 
-
 // ------------------------------------------------------------
-// Form submit
+// Form Submit
 // ------------------------------------------------------------
 
 chatForm.addEventListener("submit", function(event) {
-
     event.preventDefault();
-
     sendMessage(messageInput.value);
-
 });
 
-
 // ------------------------------------------------------------
-// Enter to send
-// Shift + Enter = new line
+// Enter to Send; Shift + Enter for New Line
 // ------------------------------------------------------------
 
 messageInput.addEventListener("keydown", function(event) {
-
     if (event.key === "Enter" && !event.shiftKey) {
-
         event.preventDefault();
-
         chatForm.requestSubmit();
-
     }
-
 });
 
-
 // ------------------------------------------------------------
-// Auto resize textarea
+// Auto Resize Textarea
 // ------------------------------------------------------------
 
 function autoResize() {
-
     messageInput.style.height = "auto";
 
     messageInput.style.height =
         Math.min(messageInput.scrollHeight, 110) + "px";
-
 }
-
 
 messageInput.addEventListener("input", autoResize);
 
-
 // ------------------------------------------------------------
-// Quick actions
+// Quick Actions
 // ------------------------------------------------------------
 
 document.querySelectorAll("[data-message]").forEach(button => {
-
     button.addEventListener("click", function() {
-
-        const message = this.dataset.message;
-
-        sendMessage(message);
-
+        sendMessage(this.dataset.message || "");
     });
-
 });
 
-
 // ------------------------------------------------------------
-// Clear chat
+// Clear Chat
 // ------------------------------------------------------------
 
 clearChatButton.addEventListener("click", async function() {
-
     const confirmed = confirm(
         "Clear your current conversation?"
     );
@@ -309,76 +243,60 @@ clearChatButton.addEventListener("click", async function() {
         return;
     }
 
+    clearChatButton.disabled = true;
 
     try {
+        const response = await fetch("/api/clear-chat", {
+            method: "POST"
+        });
 
-        const response = await fetch(
-            "/api/clear-chat",
-            {
-                method: "POST"
-            }
-        );
+        const data = await response.json().catch(() => ({}));
 
-
-        const data = await response.json();
-
-
-        if (!data.success) {
-            throw new Error("Unable to clear chat.");
+        if (!response.ok || !data.success) {
+            throw new Error(
+                data.error || "Unable to clear chat."
+            );
         }
 
-
         messagesContainer.innerHTML = `
-
             <div class="welcome-message">
-
-                <div class="assistant-avatar">
-                    ✦
-                </div>
+                <div class="assistant-avatar">✦</div>
 
                 <div class="welcome-content">
-
-                    <span class="sender">
-                        DentalAI
-                    </span>
+                    <span class="sender">DentalAI</span>
 
                     <div class="assistant-bubble">
+                        <p>Conversation cleared. 👋</p>
 
                         <p>
-                            Conversation cleared. 👋
+                            How can I help you with your dental appointment?
                         </p>
 
-                        <p>
-                            How can I help you with your dental
-                            appointment?
-                        </p>
-
-                        <span class="bubble-time">
-                            Just now
-                        </span>
-
+                        <span class="bubble-time">Just now</span>
                     </div>
-
                 </div>
-
             </div>
-
         `;
 
+        messageInput.value = "";
+        autoResize();
         scrollToBottom();
 
-
     } catch (error) {
-
         console.error("Clear chat error:", error);
 
-    }
+        addAssistantMessage(
+            "I couldn't clear the conversation. Please try again."
+        );
 
+    } finally {
+        clearChatButton.disabled = false;
+    }
 });
 
-
 // ------------------------------------------------------------
-// Initial focus
+// Initial Setup
 // ------------------------------------------------------------
 
+autoResize();
 messageInput.focus();

@@ -7,7 +7,7 @@ import os
 
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request, session
-from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.messages import AIMessage, AIMessageChunk, HumanMessage
 
 from dental_agent.agent import dental_graph
 
@@ -264,16 +264,43 @@ def chat_api():
         # Run LangGraph
         # ---------------------------------------------------------------------
 
-        result = dental_graph.invoke(
-            {
-                "messages": history,
-            },
-            config={
-                "recursion_limit": 20,
-            },
-        )
+        final_messages = []
+        streamed_text_parts = []
 
-        final_messages = result.get("messages", [])
+        # Use LangGraph streaming, following the pattern from main.py.
+        # The existing frontend expects a JSON response, so tokens are
+        # collected here and returned together when the graph finishes.
+        for event_type, data in dental_graph.stream(
+            {"messages": history},
+            stream_mode=["messages", "values"],
+            config={"recursion_limit": 20},
+        ):
+            if event_type == "messages":
+                chunk, meta = data
+
+                # Keep a text fallback in case the graph does not provide
+                # a final values event. Tool-call chunks are not user text.
+                if (
+                    isinstance(chunk, AIMessageChunk)
+                    and chunk.content
+                    and not getattr(chunk, "tool_calls", None)
+                ):
+                    if isinstance(chunk.content, str):
+                        streamed_text_parts.append(chunk.content)
+                    elif isinstance(chunk.content, list):
+                        for item in chunk.content:
+                            if isinstance(item, dict) and item.get("text"):
+                                streamed_text_parts.append(str(item["text"]))
+
+            elif event_type == "values":
+                final_messages = data.get("messages", [])
+
+        # ---------------------------------------------------------------------
+        # If the graph did not emit final state, use the streamed text fallback
+        # ---------------------------------------------------------------------
+        if not final_messages and streamed_text_parts:
+            assistant_response = "".join(streamed_text_parts).strip()
+            final_messages = history + [AIMessage(content=assistant_response)]
 
         # ---------------------------------------------------------------------
         # Extract response
