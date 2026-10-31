@@ -1,40 +1,55 @@
 # 🦷 DentAgent AI
 
 ### Intelligent Dental Appointment Management System powered by LangGraph & Groq GPT-OSS 20B
-demo:https://dentagent-ai.onrender.com/
 
-DentAgent AI is an AI-powered dental appointment management system that uses **LangGraph, LangChain, and Groq GPT-OSS 20B** to provide a conversational interface for managing dental appointments.
+<p align="center">
+  <b>AI-Powered Multi-Agent Appointment Management System</b>
+</p>
 
-The project contains **two separate application entry points**:
+🌐 **Live Demo:** https://dentagent-ai.onrender.com/
 
-- `main.py` → **Streamlit application**
-- `app.py` → **Flask web application**
+💻 **GitHub:** https://github.com/Mohit01112/DentAgent-AI
+
+---
+
+## 📌 Project Overview
+
+DentAgent AI is an AI-powered dental appointment management system that uses **LangGraph, LangChain, and Groq GPT-OSS 20B** to provide an intelligent conversational interface for managing dental appointments.
+
+The system uses a multi-agent architecture to understand user requests, select the appropriate agent, and execute appointment-management operations through specialized tools.
+
+The project contains two separate application entry points:
+
+- `main.py` – Streamlit application for interactive demonstrations.
+- `app.py` – Flask web application designed for web deployment.
 
 Both applications use the same dental-agent backend and appointment-management tools.
 
----
-
 ## ✨ Features
 
-- 🤖 AI-powered dental appointment assistant
-- 🧠 LangGraph-based agent workflow
-- ⚡ Groq GPT-OSS 20B
-- 👨‍⚕️ Find dentists by specialization
-- 📅 Check available appointment slots
-- 📌 Book appointments
-- ❌ Cancel appointments
-- 🔄 Reschedule appointments
-- 📋 View patient appointments
-- 💬 Natural-language interaction
-- 🖥️ Streamlit application for interactive demos
-- 🌐 Flask application for web deployment
-- 📊 CSV-based doctor availability
-- 🔐 Environment-variable based API configuration
-- 🚀 Gunicorn support for production deployment
+- 🤖 AI-powered dental appointment assistant.
+- 🧠 LangGraph-based multi-agent workflow.
+- ⚡ Groq GPT-OSS 20B language model.
+- 👨‍⚕️ Find dentists based on specialization.
+- 📅 Check available appointment slots.
+- 📌 Book dental appointments.
+- ❌ Cancel existing appointments.
+- 🔄 Reschedule appointments.
+- 📋 Retrieve patient appointment details.
+- 💬 Natural-language interaction.
+- 🖥️ Streamlit application for interactive demonstrations.
+- 🌐 Flask application for web deployment.
+- 📊 CSV-based doctor availability and appointment data.
+- 🔐 Environment-variable-based API configuration.
+- 🚀 Gunicorn support for production deployment.
 
 ---
 
-# 🏗️ Project Architecture
+## 🏗️ Project Architecture
+
+DentAgent AI follows a multi-agent architecture orchestrated using LangGraph.
+
+The system supports two frontend applications that connect to a shared dental-agent backend.
 
 ```text
                          ┌─────────────────────┐
@@ -67,12 +82,91 @@ Both applications use the same dental-agent backend and appointment-management t
                      doctor_availability.csv
 ```
 
+## 🤖 AI Agent Capabilities
+
+The system uses specialized agents to handle different appointment-management operations.
+
+| Agent | Responsibility |
+|---|---|
+| Information Agent | Handles doctor and appointment-related enquiries |
+| Booking Agent | Manages new appointment bookings |
+| Cancellation Agent | Handles appointment cancellations |
+| Rescheduling Agent | Manages appointment changes |
+| Supervisor | Coordinates agent execution and workflow routing |
+
+### How It Works
+
+1. The user sends a natural-language request.
+2. The LangGraph workflow receives the request.
+3. The appropriate agent is selected based on the user's intent.
+4. The agent invokes the required appointment-management tool.
+5. The appointment dataset is retrieved or updated.
+6. The system generates a response for the user.
+
 ---
 
-# 📂 Project Structure
+## 💬 Example Interactions
+
+### 1. Find Available Dentists
 
 ```text
-DentAgentAI/
+Show available slots for an orthodontist.
+```
+
+### 2. Book an Appointment
+
+```text
+Book patient 1000082 with Emily Johnson
+on 5/10/2026 at 9:00.
+```
+
+### 3. Cancel an Appointment
+
+```text
+Cancel the appointment for patient 1000082
+at 5/10/2026 9:00.
+```
+
+### 4. Reschedule an Appointment
+
+```text
+Reschedule patient 1000082 from 5/10/2026 9:00
+to 5/12/2026 10:00.
+```
+
+### 5. Retrieve Patient Appointments
+
+```text
+What appointments does patient 1000048 have?
+```
+
+The LangGraph agent interprets the request and invokes the appropriate appointment-management tool.
+
+---
+
+## 🛠️ Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Python | Core programming language |
+| LangChain | LLM and tool integration |
+| LangGraph | Multi-agent orchestration |
+| Groq API | LLM inference |
+| GPT-OSS 20B | Language model |
+| Streamlit | Interactive application |
+| Flask | Web application |
+| Pandas | Data processing |
+| CSV | Appointment data storage |
+| python-dotenv | Environment configuration |
+| Gunicorn | Production WSGI server |
+| HTML, CSS, JavaScript | Web frontend |
+
+---
+
+## 📂 Project Structure
+
+```text
+DentAgent-AI/
 │
 ├── dental_agent/
 │   ├── __init__.py
@@ -99,87 +193,33 @@ DentAgentAI/
 
 ---
 
-# 🛠️ Technology Stack
+## ⚙️ Installation and Setup
 
-| Technology | Purpose |
-|---|---|
-| Python | Core programming language |
-| LangChain | LLM and tool integration |
-| LangGraph | Agent orchestration |
-| Groq | LLM inference |
-| GPT-OSS 20B | AI language model |
-| Streamlit | Interactive application |
-| Flask | Web application |
-| Pandas | Data processing |
-| python-dotenv | Environment configuration |
-| Gunicorn | Production WSGI server |
-
----
-
-# 🤖 AI Agent Capabilities
-
-DentAgent AI supports natural-language appointment management.
-
-### Find available dentists
-
-```text
-Show available slots for an orthodontist.
-```
-
-### Book an appointment
-
-```text
-Book patient 1000082 with Emily Johnson on 5/10/2026 at 9:00.
-```
-
-### Cancel an appointment
-
-```text
-Cancel the appointment for patient 1000082 at 5/10/2026 9:00.
-```
-
-### Reschedule an appointment
-
-```text
-Reschedule patient 1000082 from 5/10/2026 9:00 to 5/12/2026 10:00.
-```
-
-### Check patient appointments
-
-```text
-What appointments does patient 1000048 have?
-```
-
-The LangGraph agent interprets the user's request and calls the appropriate appointment-management tool.
-
----
-
-# ⚙️ Installation
-
-## 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Mohit01112/DentAgent-AI.git
+
 cd DentAgent-AI
 ```
 
-## 2. Create a virtual environment
+### 2. Create a Virtual Environment
 
-### Windows
+**Windows:**
 
 ```bash
 python -m venv venv
 venv\Scripts\activate
 ```
 
-### macOS / Linux
+**macOS / Linux:**
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-## 3. Install dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -187,29 +227,26 @@ pip install -r requirements.txt
 
 ---
 
-# 🔑 Environment Variables
+## 🔑 Environment Variables
 
-Create a `.env` file in the project root:
+Create a `.env` file in the project root directory.
 
 ```env
 GROQ_API_KEY=your_groq_api_key
 MODEL_NAME=openai/gpt-oss-20b
 ```
 
-Do not commit `.env` to GitHub.
+Get your API key from:
 
-Recommended `.gitignore`:
+https://console.groq.com/
 
-```gitignore
-venv/
-.env
-__pycache__/
-*.pyc
-```
+Make sure your environment variable names match those used in your project configuration.
+
+**Important:** Never upload your `.env` file or API credentials to GitHub.
 
 ---
 
-# 🖥️ Streamlit Application
+## 🖥️ Running the Streamlit Application
 
 The Streamlit application is implemented in:
 
@@ -217,54 +254,54 @@ The Streamlit application is implemented in:
 main.py
 ```
 
-Run it using:
+Run:
 
 ```bash
 streamlit run main.py
 ```
 
-The application will normally be available at:
+Open:
 
 ```text
 http://localhost:8501
 ```
 
-The Streamlit version is useful for:
+The Streamlit application is useful for:
 
-- AI-agent demonstrations
-- Interactive testing
-- Local development
-- Rapid prototyping
+- Interactive AI-agent demonstrations.
+- Local development and testing.
+- Experimenting with appointment workflows.
+- Rapid prototyping.
 
 ---
 
-# 🌐 Flask Application
+## 🌐 Running the Flask Application
 
-The Flask application is implemented in:
+The Flask web application is implemented in:
 
 ```text
 app.py
 ```
 
-Run locally with:
+Run:
 
 ```bash
 python app.py
 ```
 
-The Flask application will normally be available at:
+Open:
 
 ```text
 http://127.0.0.1:5000
 ```
 
-The Flask version provides a web-based interface and is the version intended for production-style deployment.
+The Flask application provides a web-based interface and is the version used for the deployed live demo.
 
 ---
 
-# 🚀 Deploying the Flask Application on Render
+## 🚀 Deployment on Render
 
-The Flask application can be deployed using Render.
+DentAgent AI's Flask application can be deployed using Render.
 
 ### Build Command
 
@@ -278,159 +315,118 @@ pip install -r requirements.txt
 gunicorn app:app
 ```
 
-> `app:app` means `app.py` contains the Flask instance named `app`.
+Here, `app:app` refers to:
 
-For example:
+- First `app`: Python file `app.py`.
+- Second `app`: Flask application instance named `app`.
 
-```python
-from flask import Flask
+### Environment Variables
 
-app = Flask(__name__)
-```
+Configure the following in the Render dashboard:
 
----
-
-## Render Environment Variables
-
-Add the following environment variable in the Render dashboard:
-
-```text
+```env
 GROQ_API_KEY=your_groq_api_key
-```
-
-If your application reads the model name from the environment, also add:
-
-```text
 MODEL_NAME=openai/gpt-oss-20b
 ```
 
-Do not place API keys directly inside the source code.
+Add any other environment variables required by your Flask configuration.
 
 ---
 
-# 📋 Appointment Data
+## 📊 Appointment Data Management
 
-The project uses:
+The application uses:
 
 ```text
 doctor_availability.csv
 ```
 
-to store doctor availability and appointment information.
+The CSV dataset supports doctor availability and appointment-management operations.
 
-The AI agent uses the appointment tools to interact with this data and perform operations such as:
+The agent interacts with appointment tools to:
 
-- Checking availability
-- Booking appointments
-- Cancelling appointments
-- Rescheduling appointments
-- Finding doctors by specialization
-
----
-
-# 🔄 Application Flow
-
-```text
-User Request
-     │
-     ▼
-Streamlit (main.py)
-       OR
-Flask (app.py)
-     │
-     ▼
-LangGraph Dental Agent
-     │
-     ▼
-Groq GPT-OSS 20B
-     │
-     ▼
-Determine Required Tool
-     │
-     ├── Find Doctor
-     ├── Check Availability
-     ├── Book Appointment
-     ├── Cancel Appointment
-     └── Reschedule Appointment
-     │
-     ▼
-Appointment Data
-     │
-     ▼
-AI Response
-     │
-     ▼
-User
-```
+- Find doctors by specialization.
+- Check available slots.
+- Book appointments.
+- Cancel appointments.
+- Reschedule appointments.
+- Retrieve patient appointment details.
 
 ---
 
-# 🔐 Security
+## 🔐 Security
 
-Never commit sensitive credentials.
+Security practices followed in the project include:
 
-Make sure the following are included in `.gitignore`:
+- Environment variables for API credentials.
+- `.env` exclusion from version control.
+- Separation of application configuration and source code.
+- Avoiding hardcoded API keys.
+
+Recommended `.gitignore`:
 
 ```gitignore
-.env
 venv/
+.env
 __pycache__/
 *.pyc
-```
-
-Use environment variables for API keys:
-
-```python
-import os
-
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+.streamlit/secrets.toml
 ```
 
 ---
 
-# 📦 Requirements
+## 🔮 Future Enhancements
 
-The project dependencies are maintained in:
+DentAgent AI currently focuses on dental appointment management. The long-term vision is to expand this concept into a reusable **AI Booking Automation Platform**.
 
-```text
-requirements.txt
-```
+Planned enhancements:
 
-Install them with:
+- 📞 AI voice-calling agents for incoming booking enquiries.
+- 🗣️ Natural voice conversations for appointment management.
+- 🏥 Integration with hospitals and healthcare clinics.
+- 🏨 Booking automation for hotels.
+- 🍽️ Reservation automation for restaurants.
+- 🔄 Real-time availability synchronization.
+- 🗄️ Database integration for scalable data management.
+- 🔔 Automated booking confirmations and notifications.
 
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# 🎯 Project Goals
-
-DentAgent AI demonstrates how modern **agentic AI** can be combined with real-world appointment-management workflows.
-
-The project focuses on:
-
-- LLM-powered decision making
-- Tool calling
-- LangGraph orchestration
-- Conversational AI
-- Appointment automation
-- Web application development
-- Production-oriented deployment
+The goal is to make intelligent appointment automation adaptable to different booking-based businesses.
 
 ---
 
-# 👨‍💻 Author
+## 🎯 Project Goals
+
+This project demonstrates the practical application of:
+
+- Agentic AI and multi-agent systems.
+- LLM-powered decision-making.
+- Tool calling and function execution.
+- LangGraph workflow orchestration.
+- Conversational AI.
+- Appointment workflow automation.
+- Flask application development.
+- AI application deployment.
+
+**The vision: Move beyond AI that simply responds to AI that actually gets things done.**
+
+---
+
+## 👨‍💻 Author
 
 **Mohit Jadhav**
 
-B.E. Artificial Intelligence & Data Science
+B.E. – Artificial Intelligence and Data Science
+
+East Point College of Engineering and Technology
+
+- GitHub: https://github.com/Mohit01112
+- LinkedIn: https://www.linkedin.com/in/mohit-jadhav-49734427b/
 
 ---
 
-## ⭐ Project
+## ⭐ Support
 
-If you find this project useful, consider giving the repository a ⭐ on GitHub.
+If you find DentAgent AI interesting, consider giving the repository a ⭐ on GitHub.
 
-**GitHub:**  
-https://github.com/Mohit01112/DentAgent-AI
+Feedback, suggestions, and contributions are welcome!
+
